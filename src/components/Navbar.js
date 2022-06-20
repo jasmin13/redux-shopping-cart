@@ -3,7 +3,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const cart = useSelector((state) => state.cart);
+  const item = useSelector((state) => Object.entries(state.cart).reduce((acc, val) => {
+    acc += val[1].quantity;
+    return acc;
+  }, 0));
   return (
     <div
       style={{
@@ -23,7 +26,7 @@ const Navbar = () => {
         </Link>
         <Link className="navLink" to="/cart">
           Cart
-          {cart.length > 0 && <span className="badge">{cart.length}</span>}
+          {item > 0 && <span className="badge">{item}</span>}
         </Link>
       </div>
     </div>

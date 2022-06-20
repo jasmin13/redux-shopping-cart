@@ -1,0 +1,7 @@
+.cartItems {
+    display: flex;
+    align-items: center;
+}
+.totalItem {
+    padding: 16px;
+}
