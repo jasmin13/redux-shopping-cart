@@ -1,54 +1,54 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  decreaseQuantity,
-  increaseQuantity,
+  addToTotal,
+  decreaseCartQuantity,
+  increaseCartQuantity,
   removeFromCart,
+  subtractFromTotal,
 } from "../store/cartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  const [totalAmount, setTotalAmount] = useState(0);
+  const products = useSelector((state) => state.cart.currentCart);
+  const totalItems = useSelector((state) => state.cart.totalItems);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
 
-  useEffect(() => {
-    setTotalAmount(cart.reduce((acc, curr) => acc + curr.price, 0));
-  }, [cart]);
-
-  const handleRemove = (product) => {
-    dispatch(removeFromCart(product.id));
+  const handleRemove = (productId) => {
+    dispatch(removeFromCart(productId));
   };
   const handleAddQuantity = (product) => {
-    dispatch(increaseQuantity(product.id));
+    dispatch(increaseCartQuantity(product.id));
+    dispatch(addToTotal(product.price));
   };
   const handleRemoveQuantity = (product) => {
-    dispatch(decreaseQuantity(product.id));
+    dispatch(decreaseCartQuantity(product.id));
+    dispatch(subtractFromTotal(product.price));
   };
 
   return (
     <div>
       <h3>Cart</h3>
-      {cart.length == 0 && (
+      {totalItems == 0 && (
         <div className="cartWrapper">Your Cart is empty.</div>
       )}
-      {cart.length > 0 && (
+      {totalItems != 0 && (
         <div className="cartWrapper">
-          {cart.map((product) => (
+          {products.map((product) => (
             <div className="cartCard" key={product.id}>
               <img src={product.image} alt="" />
               <h5>{product.title}</h5>
-              <h5>${product.price}</h5>
+              <h5>{product.price}</h5>
               <button onClick={() => handleAddQuantity(product)}>+</button>
               <button onClick={() => handleRemoveQuantity(product)}>-</button>
-              <button className="btn" onClick={() => handleRemove(product)}>
+              <button className="btn" onClick={() => handleRemove(product.id)}>
                 Remove
               </button>
             </div>
           ))}
           <div className="cartTotal">
             <h5>
-              Total : <span>${totalAmount}</span>
+              Total : <span>${Math.round(totalPrice * 100) / 100} </span>
             </h5>
           </div>
         </div>

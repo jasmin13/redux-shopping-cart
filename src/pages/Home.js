@@ -1,5 +1,6 @@
 import React from "react";
-import Products from "../components/Products";
+import Product from "../components/Product";
+import { products } from "../api/products";
 
 const Home = () => {
   return (
@@ -7,7 +8,11 @@ const Home = () => {
       <h2>Welcome to the Redux toolkit store</h2>
       <section>
         <h3>Products</h3>
-        <Products />
+        <div className="productsWrapper">
+          {products.map((item) => {
+            return <Product key={item.id} item={item} />;
+          })}
+        </div>
       </section>
     </div>
   );

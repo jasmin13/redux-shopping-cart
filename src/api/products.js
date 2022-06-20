@@ -1,4 +1,4 @@
-export default [
+export const products = [
   {
     id: 1,
     title: "Samsung Galaxy S7",
