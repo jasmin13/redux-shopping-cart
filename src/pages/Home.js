@@ -10,7 +10,7 @@ const Home = () => {
         <h3>Products</h3>
         <div className="productsWrapper">
           {products.map((item) => {
-            return <Product key={item.id} item={item} />;
+            return <Product key={`prod${item.id}`} item={item} />;
           })}
         </div>
       </section>
